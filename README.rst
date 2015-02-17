@@ -1,41 +1,39 @@
-=================================
-Python bindings to the Vnfsvc API
-=================================
+============================ 
+OepnVNFManager installation
+============================
 
-This is a client for the Vnfsvc API
+* Installation steps to be followed::
 
-* To install::
+    $ Verify if vnfsvc_examples folder was cloned. Folder should exist in local machine with matching contents.
 
-    $ git clone <>
-    $ python install setup.py
+    $ Update the nsd and vnfd templates(exists in vnfsvc_examples) path in /etc/vnfsvc/templates.json 
 
-Command-line API
------------------
+    $ Update the loadbalancer and webserver image(exists in sample_templates) paths in vnfd_vLB.yaml and vnfd_vAS.yaml for flavor "Silver" as indicated in the templates.
 
-* You'll find complete command usage the shell by running::
+    $ Update the userdata(exists in vnfsvc_examples) path under deployment_artifact tag for a "Silver" flavor in vnfd_vLB.yaml 
 
-    $ vnfsvc help
+    $ Update the image(any desktop image) and flavor details under user_instance tag in heat.yaml
 
-* Create, List, Show and Delete is supported for now
-  Usage of the operations supported can be find by appending "-h"::
+    $ Upload the heat.yaml to HEAT.Enter the values given below for heat template attributes before uploading it.
+         name - webservice
+         flavor - Silver
+         private - 192.168.1.0/24 (Any IPv4 CIDR)
+         mgmt-if - 192.168.3.0.24 (Any IPv4 CIDR)
+         user-nw - 192.168.4.0/24 (Any IPv4 CIDR)
+         router - <Router name>
 
-    $ Ex: vnfsvc service-create -h 
+    $ According to the dependencies mentioned in the NSD templated the VNF's will be launched.
 
-* Example command for the create operation is given below::
+    $ After launching the non-dependent VNF/VNF's for a network service, VNFManager is created which takes care of configuring the VNF through managment network if required.
 
-    $ vnfsvc service-create --name webservice --qos Silver --networks mgmt-if='fce9ee06-a6cd-4405-ba0f-d8491dd38e2a' --networks public='b481ac9c-19bb-4216-97b5-25f5bd8be4ae' --networks private='6458b56a-a6a2-42d5-8634-bdec253edf4e' --router 'router' --subnets mgmt-if='0c8ccdf2-3808-462c-ab1e-1e1b621b0324' --subnets public='baf8bae2-3e4c-4b8b-bdb9-964fb1594203' --subnets private='ad09ac00-c4d7-473f-94ec-2ad22153d1ca'
-    $ Networks, subnets and router given in the command should exist before
+    $ Once the configuration of non-dependent VNF/VNF's are done, an acknowledgement will be sent to VNFSVC service. 
+      After receiving the acknowledgement by VNFSVC service, it will resolve the next level of dependencies and then deploy those.
+      This will be repeated until all the mentioned VNFS are deployed.
 
-* Command for the list operation is as given below::
+    $ Open the console of user-vm.
 
-    $ vnfsvc service-list <service-id>
+    $ Check whether IP has been configured properly in user-vm.
 
-* Command for the show operation is as given below::
-
-    $ vnfsvc service-show <service-id>
-
-* Command for the delete operation is as given below::
-
-    $ vnfsvc service-delete <service-id>
-
-* After installing vnfsvc, python-vnfsvcclient and HEAT updates, run the example as detailed in vnfsvc_examples
+    $ Check the reachabilty of loadbalancer from user-vm. (ping <loadbalancer private-ip>)
+      
+    $ Execute curl http://<loadbalancer private-ip>:8080 , should be able to access the webpage in the Application server.
