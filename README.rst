@@ -2,9 +2,10 @@
 Python bindings to the Vnfsvc API
 =================================
 
-* This is a client for the Vnfsvc API
+This is a client for the Vnfsvc API
 
-  To install::
+* To install::
+
     $ git clone <>
     $ python install setup.py
 
