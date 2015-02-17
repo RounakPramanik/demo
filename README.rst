@@ -14,6 +14,10 @@ vnfsvc
 Runs as a service [ similar to openstack neutron etc ] on the controller node
 It implements server side for vnfsvcclient and HEAT
 
+* It has 2 key components::
+    $ vnfsvc 
+    $ vnfManager
+
 * To install::
 
     $ git clone <>
