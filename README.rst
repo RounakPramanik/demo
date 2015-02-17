@@ -2,9 +2,9 @@
 VNFSVC
 =======
 
-* OpenVNFManager enables NFV service orchestration on openstack platform
+OpenVNFManager enables NFV service orchestration on openstack platform
 
-  It has 2 key components::
+* It has 2 key components::
     $ vnfsvc 
     $ vnfManager
 
