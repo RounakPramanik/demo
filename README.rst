@@ -1,54 +1,40 @@
-=======
-VNFSVC
-=======
+=================================
+Python bindings to the Vnfsvc API
+=================================
 
-OpenVNFManager enables NFV service orchestration on openstack platform
+* This is a client for the Vnfsvc API
 
-* It has 2 key components::
-
-    $ vnfsvc 
-    $ vnfManager
-
-vnfsvc
--------
-
-Runs as a service [ similar to openstack neutron etc ] on the controller node
-It implements server side for vnfsvcclient and HEAT
-
-* To install::
-
+  To install::
     $ git clone <>
     $ python install setup.py
 
-* Check::
+Command-line API
+-----------------
 
-    $ api-paste.ini,  rootwrap.conf,  rootwrap.d,  templates.json,  vnfsvc.conf exists in /etc/vnfsvc/ [ on RedHat Linux/Centos7/Fedora ]
+* You'll find complete command usage the shell by running::
 
-* Create keystone endpoint (please refer vnfsvc-kystn-regs in vnfsvc_examples folder)
-  Execute the following commands::
+    $ vnfsvc help
 
-    $ create database vnfsvc;
-    $ grant all privileges on vnfsvc.* to 'vnfsvc'@'localhost' identified by <database password>;
-    $ grant all privileges on vnfsvc.* to 'vnfsvc'@'%' identified by <database password>;
-    $ vnfsvc-db-manage --config-file /etc/vnfsvc/vnfsvc.conf upgrade head
+* Create, List, Show and Delete is supported for now
+  Usage of the operations supported can be find by appending "-h"::
 
-* Run with the following command to start the server::
+    $ Ex: vnfsvc service-create -h 
 
-    $ python /usr/bin/vnfsvc-server  --config-file /etc/vnfsvc/vnfsvc.conf --log-file /var/log/vnfsvc/server.log 
+* Example command for the create operation is given below::
 
-vnfManager
------------
+    $ vnfsvc service-create --name webservice --qos Silver --networks mgmt-if='fce9ee06-a6cd-4405-ba0f-d8491dd38e2a' --networks public='b481ac9c-19bb-4216-97b5-25f5bd8be4ae' --networks private='6458b56a-a6a2-42d5-8634-bdec253edf4e' --router 'router' --subnets mgmt-if='0c8ccdf2-3808-462c-ab1e-1e1b621b0324' --subnets public='baf8bae2-3e4c-4b8b-bdb9-964fb1594203' --subnets private='ad09ac00-c4d7-473f-94ec-2ad22153d1ca'
+    $ Networks, subnets and router given in the command should exist before
 
-Interfaces with VNFs and vnfsvc for configuration and lifecycle management of virtual network functions
-In the current setup init is the only supported lifecycle event
+* Command for the list operation is as given below::
 
-* Sample descriptors and howTo are provided in vnfsvc_examples folder. It has::
-    $ HA Proxy image 
-    $ Webserver image
-    $ NSD 
-    $ VNFD
-    $ HEAT template
-    $ README for running the installation
+    $ vnfsvc service-list <service-id>
+
+* Command for the show operation is as given below::
+
+    $ vnfsvc service-show <service-id>
+
+* Command for the delete operation is as given below::
+
+    $ vnfsvc service-delete <service-id>
 
 * After installing vnfsvc, python-vnfsvcclient and HEAT updates, run the example as detailed in vnfsvc_examples
-
