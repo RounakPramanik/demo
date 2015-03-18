@@ -1,5 +1,5 @@
 =========
-Ims Setup
+IMS Setup
 =========
 
 It is the setup of an IMS core and once the whole setup is complete using SIP clients like Zoiper calls can be made using numbers provided by this IMS deployment
@@ -32,6 +32,7 @@ Deploying the IMS core VNFs
 ----------------------------
 
 * Installation steps::
+
     $ Verify if vnfsvc_examples folder was cloned. Folder should exist in local machine with matching contents.
 
     $ Update the nsd and vnfd templates(exists in vnfsvc_examples) path in /etc/vnfsvc/templates.json
